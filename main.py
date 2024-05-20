@@ -1,11 +1,15 @@
 import pygame
+import cellgroup
+import colors
 
 def main():
 # pygame setup
     pygame.init()
+    pygame.font.init()
     screen = pygame.display.set_mode((1280, 720))
     clock = pygame.time.Clock()
     running = True
+    cg = cellgroup.CellGroup(400, 100, 10, 10, 50, 50)
 
     while running:
         # poll for events
@@ -15,9 +19,11 @@ def main():
                 running = False
 
         # fill the screen with a color to wipe away anything from last frame
-        screen.fill("purple")
+        screen.fill(colors.white)
+       
 
         # RENDER YOUR GAME HERE
+        cg = cellgroup.CellGroup(400, 100, 10, 10, 50, 50)
 
         # flip() the display to put your work on screen
         pygame.display.flip()
@@ -26,6 +32,6 @@ def main():
 
     pygame.quit()
 
-    
+
 if __name__ == '__main__':
     main()
