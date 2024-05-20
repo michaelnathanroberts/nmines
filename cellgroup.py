@@ -1,6 +1,5 @@
 import pygame 
 import cell
-import colors
 import random
 
 class CellGroup:
@@ -16,10 +15,10 @@ class CellGroup:
         self.cell_height = cell_height
         self.cell_rows: list[list[cell.Cell]] = []
 
-        for i in range(width):
+        for i in range(height):
             row = []
-            for j in range(height):
-                c = cell.Cell(left + i*cell_width, top + j*cell_height, cell_width, cell_height, False)
+            for j in range(width):
+                c = cell.Cell(left + j*cell_width, top + i*cell_height, cell_width, cell_height, False)
                 row.append(c)
             self.cell_rows.append(row)
 
@@ -37,7 +36,7 @@ class CellGroup:
             pool.remove(ordinal)
 
             row, column = divmod(ordinal, self.width)
-            self.cell_rows[column][row].is_mine = True
+            self.cell_rows[row][column].is_mine = True
 
     def update_adjacencies(self):
         for i in range(self.width):
@@ -54,28 +53,8 @@ class CellGroup:
                         y = j + l
                         if y < 0 or y >= self.height:
                             continue
-                        if self.cell_rows[j + l][i + k].is_mine:
+                        if self.cell_rows[y][x].is_mine:
                             current_cell.num_adjacent_mines += 1
-
-    def show(self, row: int, column: int):
-        coord_queue: list[tuple[int, int]] = [(row, column)]
-        while coord_queue:
-            row, column = coord_queue.pop(0)
-            current_cell: cell.Cell = self.cell_rows[row][column]
-            if not current_cell.is_visible:
-                current_cell.is_visible = True
-                if current_cell.num_adjacent_mines == 0:
-                    for k in range(-1, 2):
-                        x = row + k
-                        if x < 0 or x >= self.width:
-                            continue
-                        for l in range(-1, 2):
-                            if k == 0 and l == 0:
-                                continue
-                            y = column + l
-                            if y < 0 or y >= self.height:
-                                continue
-                            coord_queue.append((x, y))
 
     def show_all(self):
         for row in self.cell_rows:
@@ -89,10 +68,31 @@ class CellGroup:
             return
         if mouse_y < self.top or mouse_y >= bottom:
             return
-        row = (mouse_x - self.left) // self.cell_width
-        column = (mouse_y - self.top) // self.cell_height
-        print(row, column)
+        column = (mouse_x - self.left) // self.cell_width
+        row = (mouse_y - self.top) // self.cell_height
         self.show(row, column)
-        
+
+    def show(self, row, column):
+        queue = [(row, column)]
+        while queue:
+            row, column = queue.pop(0)
+            current_cell = self.cell_rows[row][column]
+            if current_cell.is_visible:
+                continue
+            current_cell.is_visible = True
+            if (current_cell.is_mine or current_cell.num_adjacent_mines > 0):
+                continue
+            
+            for k in range(-1, 2):
+                x = column + k
+                if x < 0 or x >= self.width:
+                    continue
+                for l in range(-1, 2):
+                    if k == 0 and l == 0:
+                        continue
+                    y = row + l
+                    if y < 0 or y >= self.height:
+                        continue
+                    queue.append((y, x))
         
             

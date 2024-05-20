@@ -20,6 +20,11 @@ class Cell:
         self.num_adjacent_mines = 0
         self.__font = None
 
+    def __repr__(self):
+        if self.is_mine:
+            return "M"
+        return str(self.num_adjacent_mines)
+
     def draw(self, screen: pygame.Surface, color: colors.Color):
         rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
         

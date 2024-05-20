@@ -10,7 +10,7 @@ def main():
     clock = pygame.time.Clock()
     running = True
     cg = cellgroup.CellGroup(400, 100, 10, 10, 50, 50)
-    cg.init_mines(5)
+    cg.init_mines(10)
     cg.update_adjacencies()
 
     while running:
