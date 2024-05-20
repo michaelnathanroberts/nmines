@@ -21,6 +21,9 @@ def main():
                 running = False
             if event.type == pygame.MOUSEBUTTONUP:
                 cg.handle_click(*pygame.mouse.get_pos())
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_f:
+                    cg.handle_flag(*pygame.mouse.get_pos())
 
         # fill the screen with a color to wipe away anything from last frame
         screen.fill(colors.white)

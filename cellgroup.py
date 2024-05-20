@@ -62,22 +62,34 @@ class CellGroup:
                 cellobj.is_visible = True
 
     def handle_click(self, mouse_x: int, mouse_y: int):
+        coords = self.get_cell(mouse_x, mouse_y)
+        if coords is not None:
+            self.show(*coords)
+
+    def handle_flag(self, mouse_x: int, mouse_y: int):
+        coords = self.get_cell(mouse_x, mouse_y)
+        if coords is not None:
+            row, column = coords
+            c = self.cell_rows[row][column]
+            c.flagged = not c.flagged
+
+    def get_cell(self, mouse_x: int, mouse_y: int):
         right = self.left + (self.cell_width)*self.width
         bottom = self.top + (self.cell_height)*self.height
         if mouse_x < self.left or mouse_x >= right:
-            return
+            return None
         if mouse_y < self.top or mouse_y >= bottom:
-            return
+            return None
         column = (mouse_x - self.left) // self.cell_width
         row = (mouse_y - self.top) // self.cell_height
-        self.show(row, column)
+        return row, column
 
     def show(self, row, column):
         queue = [(row, column)]
         while queue:
             row, column = queue.pop(0)
             current_cell = self.cell_rows[row][column]
-            if current_cell.is_visible:
+            if current_cell.is_visible or current_cell.flagged:
                 continue
             current_cell.is_visible = True
             if (current_cell.is_mine or current_cell.num_adjacent_mines > 0):

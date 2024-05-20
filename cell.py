@@ -2,13 +2,16 @@ import pygame
 import colors
 
 class Cell:
-    __slots__ = ['x', 'y', 'width', 'height', 'is_mine', 'is_visible', 'num_adjacent_mines', '__font']
+    __slots__ = ['x', 'y', 'width', 'height', 'is_mine', 'is_visible',
+                  'num_adjacent_mines', 'flagged', '__font']
 
     MINE_COLORS = [colors.darkred, colors.red, colors.orange, colors.yellow,
                    colors.chartreuse, colors.lime, colors.springgreen,
-                   colors.cyan, colors.skyblue, colors.blue]
+                   colors.cyan, colors.blue]
     
     EDGE_COLOR = colors.purple
+
+    FLAG_COLOR = colors.hotpink
 
     def __init__(self, x: int, y: int, width: int, height: int, is_mine: bool=False):
         self.x = x
@@ -19,25 +22,10 @@ class Cell:
         self.is_visible = False
         self.num_adjacent_mines = 0
         self.__font = None
-
-    def __repr__(self):
-        if self.is_mine:
-            return "M"
-        return str(self.num_adjacent_mines)
+        self.flagged = False
 
     def draw(self, screen: pygame.Surface, color: colors.Color):
         rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
-        
-        if not self.is_visible:
-            pygame.draw.rect(screen, colors.grey, rect)
-            pygame.draw.rect(screen, color, rect, 2)
-            return
-         
-        pygame.draw.rect(screen, colors.black, rect)
-        pygame.draw.rect(screen, color, rect, 2)
-
-       
-
         half_width = self.width // 2
         half_height = self.height // 2
         quarter_width = self.width // 4
@@ -45,6 +33,17 @@ class Cell:
         effect_x = quarter_width + self.x
         effect_y = quarter_height + self.y
         effect_rect = pygame.rect.Rect(effect_x, effect_y, half_width, half_height)
+        
+        if not self.is_visible:
+            pygame.draw.rect(screen, colors.grey, rect)
+            pygame.draw.rect(screen, color, rect, 2)
+            if self.flagged:
+                pygame.draw.rect(screen, self.FLAG_COLOR, effect_rect)
+            return
+         
+        pygame.draw.rect(screen, colors.black, rect)
+        pygame.draw.rect(screen, color, rect, 2)
+
         if self.is_mine:
             pygame.draw.ellipse(screen, self.MINE_COLORS[0], effect_rect, 0)
             return
