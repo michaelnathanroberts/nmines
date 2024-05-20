@@ -10,6 +10,9 @@ def main():
     clock = pygame.time.Clock()
     running = True
     cg = cellgroup.CellGroup(400, 100, 10, 10, 50, 50)
+    cg.init_mines(20)
+    cg.update_adjacencies()
+    cg.show_all()
 
     while running:
         # poll for events
@@ -23,7 +26,7 @@ def main():
        
 
         # RENDER YOUR GAME HERE
-        cg = cellgroup.CellGroup(400, 100, 10, 10, 50, 50)
+        cg.draw(screen)
 
         # flip() the display to put your work on screen
         pygame.display.flip()

@@ -4,9 +4,11 @@ import colors
 class Cell:
     __slots__ = ['x', 'y', 'width', 'height', 'is_mine', 'is_visible', 'num_adjacent_mines', '__font']
 
-    MINE_COLORS = [None, colors.red, colors.orange, colors.yellow,
+    MINE_COLORS = [colors.darkred, colors.red, colors.orange, colors.yellow,
                    colors.chartreuse, colors.lime, colors.springgreen,
                    colors.cyan, colors.skyblue, colors.blue]
+    
+    EDGE_COLOR = colors.purple
 
     def __init__(self, x: int, y: int, width: int, height: int, is_mine: bool=False):
         self.x = x
@@ -22,7 +24,7 @@ class Cell:
         rect = pygame.rect.Rect(self.x, self.y, self.width, self.height)
         
         if not self.is_visible:
-            pygame.draw.rect(screen, colors.fuchsia, rect)
+            pygame.draw.rect(screen, colors.grey, rect)
             pygame.draw.rect(screen, color, rect, 2)
             return
          
@@ -39,7 +41,7 @@ class Cell:
         effect_y = quarter_height + self.y
         effect_rect = pygame.rect.Rect(effect_x, effect_y, half_width, half_height)
         if self.is_mine:
-            pygame.draw.ellipse(screen, colors.darkred, effect_rect, 0)
+            pygame.draw.ellipse(screen, self.MINE_COLORS[0], effect_rect, 0)
             return
         
         if self.__font == None:
