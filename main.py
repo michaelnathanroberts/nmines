@@ -10,9 +10,8 @@ def main():
     clock = pygame.time.Clock()
     running = True
     cg = cellgroup.CellGroup(400, 100, 10, 10, 50, 50)
-    cg.init_mines(20)
+    cg.init_mines(5)
     cg.update_adjacencies()
-    cg.show_all()
 
     while running:
         # poll for events
@@ -20,6 +19,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.MOUSEBUTTONUP:
+                cg.handle_click(*pygame.mouse.get_pos())
 
         # fill the screen with a color to wipe away anything from last frame
         screen.fill(colors.white)
