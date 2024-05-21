@@ -57,6 +57,13 @@ class CellGroup:
                             continue
                         if self.cell_rows[y][x].is_mine:
                             current_cell.num_adjacent_mines += 1
+    
+    def reset(self):
+        for row in self.cell_rows:
+            for cellobj in row:
+                cellobj.flagged = False
+                cellobj.is_mine = False
+                cellobj.is_visible = False
 
     def show_all(self):
         for row in self.cell_rows:
