@@ -9,14 +9,14 @@ class Game:
 
     def __init__(self):
         self.running = True
-        self.cellgrid = CellGroup(200, 200, 10, 10, 50, 50)
+        self.cellgrid = CellGroup(200, 200, 15, 15, 50, 50)
         self.state = GameState.Setup
         self.title_font = pygame.font.SysFont("monospace", 50, bold=True)
         self.play_rect = pygame.rect.Rect(500, 650, 200, 100)
         self.quit_rect = pygame.rect.Rect(500, 800, 200, 100)
-        self.menu_rect = pygame.rect.Rect(800, 300, 200, 100)
-        self.play_again_rect = pygame.rect.Rect(800, 450, 200, 100)
-        self.exit_rect = pygame.rect.Rect(800, 600, 200, 100)
+        self.menu_rect = pygame.rect.Rect(1000, 300, 200, 100)
+        self.play_again_rect = pygame.rect.Rect(1000, 450, 200, 100)
+        self.exit_rect = pygame.rect.Rect(1000, 600, 200, 100)
     
     def draw_setup(self, surface: pygame.Surface):
         button_font = pygame.font.SysFont("monospace", 50,bold=False)
@@ -29,7 +29,7 @@ class Game:
 
     def draw(self, surface: pygame.Surface):
         label = self.title_font.render("n Mines", False, colors.navyblue)
-        title_x = 500 if self.state == GameState.Setup else 350
+        title_x = 500 
         surface.blit(label, (title_x, 100))
         if self.state == GameState.Setup:
             self.draw_setup(surface)
@@ -42,7 +42,7 @@ class Game:
                     label = self.title_font.render("You Win!!", False, colors.darkgreen)
                 else:
                     label = self.title_font.render("You lost.", False, colors.red)
-                surface.blit(label, (775, 200))
+                surface.blit(label, (975, 200))
 
     
     def handle_click(self):

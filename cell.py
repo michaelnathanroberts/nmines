@@ -41,12 +41,14 @@ class Cell:
                 pygame.draw.rect(screen, self.FLAG_COLOR, effect_rect)
             return
          
-        pygame.draw.rect(screen, colors.black, rect)
-        pygame.draw.rect(screen, color, rect, 2)
-
         if self.is_mine:
+            pygame.draw.rect(screen, colors.grey, rect)
+            pygame.draw.rect(screen, color, rect, 2)
             pygame.draw.ellipse(screen, self.MINE_COLORS[0], effect_rect, 0)
             return
+        else:
+            pygame.draw.rect(screen, colors.black, rect)
+            pygame.draw.rect(screen, color, rect, 2)
         
         if self.__font == None:
             self.__font = pygame.font.SysFont("monospace", min(half_width, half_height), bold=True)
