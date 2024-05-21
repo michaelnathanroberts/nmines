@@ -28,6 +28,7 @@ def main():
 
         # RENDER YOUR GAME HERE
         game.draw(screen)
+        game.update_state()
 
         # flip() the display to put your work on screen
         pygame.display.flip()

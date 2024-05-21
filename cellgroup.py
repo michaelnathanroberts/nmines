@@ -1,6 +1,7 @@
 import pygame 
-import cell
+from cell import Cell
 import random
+from gamestate import GameState
 
 class CellGroup:
     __slots__ = ['left', 'top', 'width', 'height', 'cell_width', 'cell_height',
@@ -14,12 +15,12 @@ class CellGroup:
         self.height = height
         self.cell_width = cell_width
         self.cell_height = cell_height
-        self.cell_rows: list[list[cell.Cell]] = []
+        self.cell_rows: list[list[Cell]] = []
 
         for i in range(height):
             row = []
             for j in range(width):
-                c = cell.Cell(left + j*cell_width, top + i*cell_height, cell_width, cell_height, False)
+                c = Cell(left + j*cell_width, top + i*cell_height, cell_width, cell_height, False)
                 row.append(c)
             self.cell_rows.append(row)
 
@@ -28,7 +29,7 @@ class CellGroup:
         # Draw each cell
         for row in self.cell_rows:
             for c in row:
-                c.draw(screen, cell.Cell.EDGE_COLOR)
+                c.draw(screen, Cell.EDGE_COLOR)
 
     def init_mines(self, num_mines: int):
         pool = list(range(self.width * self.height))
@@ -107,5 +108,24 @@ class CellGroup:
                     if y < 0 or y >= self.height:
                         continue
                     queue.append((y, x))
+
+    def derive_state(self):
+        state = GameState.Win
+        for cell_row in self.cell_rows:
+            for cell in cell_row:
+                if cell.is_mine:
+                    if cell.is_visible:
+                        self.show_mines()
+                        return GameState.Lose
+                else:
+                    if not cell.is_visible:
+                        state = GameState.Play
+        return state
+    
+    def show_mines(self):
+         for cell_row in self.cell_rows:
+            for cell in cell_row:
+                if cell.is_mine:
+                    cell.is_visible = True
         
             

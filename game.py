@@ -50,6 +50,10 @@ class Game:
         if self.state == GameState.Play:
             if event.key == pygame.K_f:
                 self.cellgrid.handle_flag(*pygame.mouse.get_pos())
+    
+    def update_state(self):
+        if self.state == GameState.Play:
+            self.state = self.cellgrid.derive_state()
 
 
     
