@@ -36,6 +36,12 @@ class Game:
             self.cellgrid.draw(surface)
             if self.state in [GameState.Win, GameState.Lose]:
                 self.draw_postgame(surface)
+                label = None
+                if self.state == GameState.Win:
+                    label = self.title_font.render("You Win!!", False, colors.darkgreen)
+                else:
+                    label = self.title_font.render("You lost.", False, colors.red)
+                surface.blit(label, (775, 200))
 
     
     def handle_click(self):
