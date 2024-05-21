@@ -1,36 +1,33 @@
 import pygame
-import cellgroup
+from game import Game
 import colors
 
 def main():
 # pygame setup
     pygame.init()
     pygame.font.init()
-    screen = pygame.display.set_mode((1280, 720))
+    screen = pygame.display.set_mode((1280, 1280))
     clock = pygame.time.Clock()
     running = True
-    cg = cellgroup.CellGroup(400, 100, 10, 10, 50, 50)
-    cg.init_mines(10)
-    cg.update_adjacencies()
+    game = Game()
 
-    while running:
+    while game.running:
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                game.running = False
             if event.type == pygame.MOUSEBUTTONUP:
-                cg.handle_click(*pygame.mouse.get_pos())
+                game.handle_click()
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_f:
-                    cg.handle_flag(*pygame.mouse.get_pos())
+                game.handle_key(event)
 
         # fill the screen with a color to wipe away anything from last frame
         screen.fill(colors.white)
        
 
         # RENDER YOUR GAME HERE
-        cg.draw(screen)
+        game.draw(screen)
 
         # flip() the display to put your work on screen
         pygame.display.flip()

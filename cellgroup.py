@@ -3,7 +3,8 @@ import cell
 import random
 
 class CellGroup:
-    __slots__ = ['left', 'top', 'width', 'height', 'cell_width', 'cell_height', 'cell_rows']
+    __slots__ = ['left', 'top', 'width', 'height', 'cell_width', 'cell_height',
+                  'cell_rows']
 
     def __init__(self, left: int, top: int, width: int, height: int, 
                  cell_width: int, cell_height: int):
