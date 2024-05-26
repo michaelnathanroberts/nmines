@@ -3,7 +3,7 @@
 An open-source game of Minesweeper, powered by pygame.
 
 <h2> Execution </h2>
-```~/nmines $ python3 main.py```
+~/nmines $ python3 main.py
 
 <h2> Manual </h2>
 <h3> Setup </h3>
@@ -26,3 +26,8 @@ Furthermore, all mine cells are released.
 The flag feature exists to assist the player. A player may flag an unrevealed cell
 by hovering over it while pressing the 'f' key. If the player hovers over a flagged cell
 while pressing the 'f' key, they unflag it. Clicking a flagged cell has no effect.
+
+<h3> Navigation </h3>
+
+A player may restart the game at any time, keeping the current settings. A player may access the menu at any time to create a new game with their desired settings. Accessing the menu 
+terminates the current game.
