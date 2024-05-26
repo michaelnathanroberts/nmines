@@ -19,6 +19,8 @@ def main():
                 game.running = False
             if event.type == pygame.MOUSEBUTTONUP:
                 game.handle_click()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                game.handle_hover()
             elif event.type == pygame.KEYUP:
                 game.handle_key(event)
 
